@@ -1,1 +1,1 @@
-autocmd FileType jinja set formatprg=hasstemplate
+set formatprg=hasstemplate
