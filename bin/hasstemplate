@@ -1,0 +1,28 @@
+#!/usr/bin/perl
+use strict;
+use warnings FATAL => 'all';
+
+use utf8;
+use open qw(:std :utf8);
+
+
+# read the template from standard input
+my $template = do { local $/; <> };
+
+# send the input to hass-cli
+open my $hass, "| hass-cli template -" or die "Can't open hass-cli: $!";
+
+# print the template to hass-cli
+print $hass $template;
+
+# read the result from hass-cli
+my $result = do { local $/; <$hass> };
+
+# print the result
+say $result if defined $result;
+
+# close the pipe
+close $hass;
+
+# exit with the exit code of hass-cli
+exit $?;
