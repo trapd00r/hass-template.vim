@@ -12,4 +12,12 @@ Now you can select any (or all) states and render it using `gq`
 hass-cli state list | awk '{print $1}' | sort -u | grep -vP '^update|update$' | perl -pe 's#^(.+)$#"{{states(🤩$1🤩)}}"#' | perl -pe 's/🤩/"/g' | vim -c setf\ jinja
 ```
 
+Bonus:
+
+Grab all entities and their values
+
+```bash
+ hass-cli state list | awk '{print $1}' | sort -u | grep -vP '^update|update$' | perl -pe 's/^(.+)$/$1:$1/' | while IFS=: read -r entity value; do printf "%s %s\n" $entity "{{states('$value')}}" | hass-cli template -  ; done 
+ ```
+
 [![asciicast](https://asciinema.org/a/565704.svg)](https://asciinema.org/a/565704)
